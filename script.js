@@ -43,6 +43,25 @@ window.addEventListener('load', function() {
 		var todayRainChance = todaydata.precipProbability;
 		var todayPrecip = todaydata.precipIntensity;
 
+		//todays hourly data
+		var hourlydata = response.hourly.data;
+
+		//the hourly temps that were actually concerned with (next 24 hours)
+		var hourlytimes = [];
+		var hourlytemps = [];
+
+		//the times that correspond with each of the temps
+
+		for (var i = 0; i < 24; i++) {
+			hourlytemps.push( Math.round(hourlydata[i].temperature) );
+			hourlytimes.push( new Date (hourlydata[i].time * 1000) );
+			hourlytimes[i] = hourlytimes[i].getHours();
+		};
+
+
+
+
+
 
 		//need to put the sunrise and sunset times in standard format:
 		var todaySunriseTime = todaySunrise.getHours() + ":" + addLeadingZero(todaySunrise.getMinutes()) + todaySunrise.getMinutes();
@@ -93,6 +112,11 @@ window.addEventListener('load', function() {
 		document.getElementById('daydisplay').innerHTML = dayofweek;
 		document.getElementById('hightempdisplay').innerHTML = Math.round(todayHigh) + "&deg;";
 		document.getElementById('lowtempdisplay').innerHTML = Math.round(todayLow) + "&deg;";
+
+		//HOURLY WEATHER DATA (just temperatures):
+		document.getElementById('hourlynow').innerHTML = Math.round(currentTemp) + "&deg;";
+
+
 		//WEEKLY WEATHER DATA (middle part):
 
 		//TODAYS WEATHER DATA (bottom part):
