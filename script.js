@@ -44,7 +44,7 @@ window.addEventListener('load', function() {
 		//
 		//x is the minute portion of the time
 		function addLeadingZero(x) {
-			if (todaySunrise.getMinutes() <= 9) {
+			if (x <= 9) {
 				return "0";
 			}
 			else{
