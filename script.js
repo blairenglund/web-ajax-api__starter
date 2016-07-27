@@ -30,22 +30,48 @@ window.addEventListener('load', function() {
 		var todaydata = response.daily.data[0];
 		var todaytime = new Date(todaydata.time)
 		var dayofweek = weekday[todaytime.getDay()];
-		var todayhigh = todaydata.temperatureMax;
-		var todaylow = todaydata.temperatureMin;
-		var todaysunrise = new Date(todaydata.sunriseTime * 1000);
-		var todaysunset = new Date(todaydata.sunsetTime * 1000);
+		var todayHigh = todaydata.temperatureMax;
+		var todayLow = todaydata.temperatureMin;
+		var todaySunrise = new Date(todaydata.sunriseTime * 1000);
+		var todaySunset = new Date(todaydata.sunsetTime * 1000);
+		var todaySummary = todaydata.summary;
+
+
+		//need to put the sunrise and sunset times in standard format:
+		var todaySunriseTime = todaySunrise.getHours() + ":" + addLeadingZero(todaySunrise.getMinutes()) + todaySunrise.getMinutes();
+		var todaySunsetTime = todaySunset.getHours() + ":" + addLeadingZero(todaySunset.getMinutes()) + todaySunset.getMinutes();
+		//this function will add a leading zero to the minutes if they are < 10
+		//
+		//x is the minute portion of the time
+		function addLeadingZero(x) {
+			if (todaySunrise.getMinutes() <= 9) {
+				return "0";
+			}
+			else{
+				return "";
+			}
+		}
+
+		//this function will determine whether the time is A.M. or P.M.
+		//
+		//x is the hour portion of the time
+		//function
+
+		debugger;
 
 		//change the innerHTML of the DOM elements to reflect the api data
-		//CURRENT WEATHER DATA:
+		//CURRENT WEATHER DATA (top part):
 		document.getElementById('conditionsdisplay').innerHTML = currentSummary;
 		document.getElementById('currenttempdisplay').innerHTML = Math.round(currentTemp) + "&deg;";
 		document.getElementById('daydisplay').innerHTML = dayofweek;
-		document.getElementById('hightempdisplay').innerHTML = Math.round(todayhigh) + "&deg;";
-		document.getElementById('lowtempdisplay').innerHTML = Math.round(todaylow) + "&deg;";
-		//WEEKLY WEATHER DATA:
+		document.getElementById('hightempdisplay').innerHTML = Math.round(todayHigh) + "&deg;";
+		document.getElementById('lowtempdisplay').innerHTML = Math.round(todayLow) + "&deg;";
+		//WEEKLY WEATHER DATA (middle part):
 
-		//TODAYS WEATHER DATA:
-
+		//TODAYS WEATHER DATA (bottom part):
+		document.getElementById('todaysummary').innerHTML = "Today: " + todaySummary;
+		document.getElementById('sunrisedisplay').innerHTML = todaySunriseTime;
+		document.getElementById('sunsetdisplay').innerHTML = todaySunsetTime;
 
 	})
 
