@@ -28,6 +28,8 @@ window.addEventListener('load', function() {
 		var currentHumidity = response.currently.humidity * 100;
 		var currentWindSpeed = response.currently.windSpeed;
 		var currentWindBearing = response.currently.windBearing;
+		var currentPressure = (29.92 * response.currently.pressure) / 1013.25; //this variable is the pressure with mb converted to in.
+		var currentVisibility = response.currently.visibility;
 
 		//daily variables
 		var todaydata = response.daily.data[0];
@@ -39,6 +41,7 @@ window.addEventListener('load', function() {
 		var todaySunset = new Date(todaydata.sunsetTime * 1000);
 		var todaySummary = todaydata.summary;
 		var todayRainChance = todaydata.precipProbability;
+		var todayPrecip = todaydata.precipIntensity;
 
 
 		//need to put the sunrise and sunset times in standard format:
@@ -81,8 +84,6 @@ window.addEventListener('load', function() {
 			else {return "--";}
 		};
 
-
-
 		debugger;
 
 		//change the innerHTML of the DOM elements to reflect the api data
@@ -101,6 +102,10 @@ window.addEventListener('load', function() {
 		document.getElementById('rainchancedisplay').innerHTML = todayRainChance + "%";
 		document.getElementById('humiditydisplay').innerHTML = currentHumidity + "%";
 		document.getElementById('winddisplay').innerHTML = currentWindSpeed + " mph " + currentWindDirection(currentWindBearing);
+		document.getElementById('apparenttempdisplay').innerHTML = Math.round(currentApparentTemp) + "%";
+		document.getElementById('precipdisplay').innerHTML = todayPrecip;
+		document.getElementById('pressuredisplay').innerHTML = Math.round(currentPressure) + " in";
+		document.getElementById('visibilitydisplay').innerHTML = currentVisibility + "mi";
 
 	})
 
