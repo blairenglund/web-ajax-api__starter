@@ -43,14 +43,12 @@ window.addEventListener('load', function() {
 		var todayRainChance = todaydata.precipProbability;
 		var todayPrecip = todaydata.precipIntensity;
 
-		//todays hourly data
+		//full array of hourly data
 		var hourlydata = response.hourly.data;
 
-		//the hourly temps that were actually concerned with (next 24 hours)
+		//the time and temps that we're actually concerned with (next 24 hour period)
 		var hourlytimes = [];
 		var hourlytemps = [];
-
-		//the times that correspond with each of the temps
 
 		for (var i = 0; i < 24; i++) {
 			hourlytemps.push( Math.round(hourlydata[i].temperature) );
@@ -59,7 +57,7 @@ window.addEventListener('load', function() {
 		};
 
 
-
+		debugger;
 
 
 
@@ -103,8 +101,6 @@ window.addEventListener('load', function() {
 			else {return "--";}
 		};
 
-		debugger;
-
 		//change the innerHTML of the DOM elements to reflect the api data
 		//CURRENT WEATHER DATA (top part):
 		document.getElementById('conditionsdisplay').innerHTML = currentSummary;
@@ -113,8 +109,15 @@ window.addEventListener('load', function() {
 		document.getElementById('hightempdisplay').innerHTML = Math.round(todayHigh) + "&deg;";
 		document.getElementById('lowtempdisplay').innerHTML = Math.round(todayLow) + "&deg;";
 
-		//HOURLY WEATHER DATA (just temperatures):
-		document.getElementById('hourlynow').innerHTML = Math.round(currentTemp) + "&deg;";
+		//HOURLY WEATHER DATA (just temperatures):		
+		var hourlyTimeFields = document.getElementsByClassName('hourlytime');
+		for (var i = 0; i < hourlyTimeFields.length; i++) {
+			hourlyTimeFields[i].innerHTML = hourlytimes[i] + ":00";
+		}
+		var hourlyTempFields = document.getElementsByClassName('hourlytemp')
+		for (var i = 0; i < hourlyTempFields.length; i++) {
+			hourlyTempFields[i].innerHTML = hourlytemps[i] + "&deg;";
+		}
 
 
 		//WEEKLY WEATHER DATA (middle part):
@@ -130,6 +133,7 @@ window.addEventListener('load', function() {
 		document.getElementById('precipdisplay').innerHTML = todayPrecip;
 		document.getElementById('pressuredisplay').innerHTML = Math.round(currentPressure) + " in";
 		document.getElementById('visibilitydisplay').innerHTML = currentVisibility + "mi";
+		debugger;
 
 	})
 
