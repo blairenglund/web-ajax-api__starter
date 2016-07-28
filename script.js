@@ -56,10 +56,22 @@ window.addEventListener('load', function() {
 			hourlytimes[i] = hourlytimes[i].getHours();
 		};
 
+		//array of daily forecast objects
+		var dailydata = response.daily.data;
+
+		//days, highs, lows
+		var dailyDays = [];
+		var dailyHighs = [];
+		var dailyLows = [];
+
+		for (var i = 0; i < dailydata.length; i++) {
+			dailyDays.push( new Date (dailydata[i].time * 1000) );
+			dailyDays[i] = weekday[dailyDays[i].getDay()];
+			dailyHighs.push( Math.round(dailydata[i].temperatureMax) );
+			dailyLows.push( Math.round(dailydata[i].temperatureMin) );
+		}
 
 		debugger;
-
-
 
 		//need to put the sunrise and sunset times in standard format:
 		var todaySunriseTime = todaySunrise.getHours() + ":" + addLeadingZero(todaySunrise.getMinutes()) + todaySunrise.getMinutes();
@@ -114,13 +126,27 @@ window.addEventListener('load', function() {
 		for (var i = 0; i < hourlyTimeFields.length; i++) {
 			hourlyTimeFields[i].innerHTML = hourlytimes[i] + ":00";
 		}
+		hourlyTimeFields[0].innerHTML = "Now";
+
 		var hourlyTempFields = document.getElementsByClassName('hourlytemp')
 		for (var i = 0; i < hourlyTempFields.length; i++) {
 			hourlyTempFields[i].innerHTML = hourlytemps[i] + "&deg;";
 		}
 
+		//DAILY WEATHER DATA (highs and lows):
+		var dailyDayFields = document.getElementsByClassName('dailydisplay');
+		for (var i = 0; i < dailyDayFields.length; i++) {
+			dailyDayFields[i].innerHTML = dailyDays[i];
+		}
+		var dailyHighFields = document.getElementsByClassName('dailyhighdisplay');
+		for (var i = 0; i < dailyHighFields.length; i++) {
+			dailyHighFields[i].innerHTML = dailyHighs[i] + "&deg;";
+		}
+		var dailyLowFields = document.getElementsByClassName('dailylowdisplay');
+		for (var i = 0; i < dailyLowFields.length; i++) {
+			dailyLowFields[i].innerHTML = dailyLows[i] + "&deg;";
+		}
 
-		//WEEKLY WEATHER DATA (middle part):
 
 		//TODAYS WEATHER DATA (bottom part):
 		document.getElementById('todaysummary').innerHTML = "Today: " + todaySummary;
